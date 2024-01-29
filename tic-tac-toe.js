@@ -48,7 +48,7 @@ const gameController = (function createGameController () {
   const players = [createPlayer(1), createPlayer(2)];
   let activePlayer = players[0];
   const getActivePlayer = () => activePlayer;
-  const setActivePlayer = function() {
+  const updateActivePlayer = function() {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
   const playTurn = function () {
@@ -58,7 +58,7 @@ const gameController = (function createGameController () {
     if (gameWon()) {
       console.log('Hooray! The game is over!');
     } else {
-      setActivePlayer();
+      updateActivePlayer();
     }
   };
   const gameWon = function () {
@@ -129,3 +129,23 @@ const gameController = (function createGameController () {
 
   return { boardObj, players, getActivePlayer, playTurn, gameWon };
 })();
+
+const renderer = (function(board) {
+  board.board.forEach((value, index, array) => {
+    const square = document.getElementById(`square-${index}`);
+    console.log(index);
+    console.log(square);
+    const symbol = getSymbol(value);
+
+    square.textContent = symbol;
+  });
+  function getSymbol (num) {
+    if (num === 0) {
+      return '';
+    } else if (num === 1) {
+      return 'X';
+    } else {
+      return 'O';
+    }
+  };
+})(board);
