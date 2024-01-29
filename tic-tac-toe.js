@@ -121,11 +121,11 @@ const gameController = (function createGameController () {
 
     return allEquals(row);
   };
-  const allEquals = function (array) {
+  function allEquals (array) {
     return array.every((val) => {
       return (val === array[0] && val != 0);
     });
-  };
+  }
 
   return { boardObj, players, getActivePlayer, playTurn, gameWon };
 })();
