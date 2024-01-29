@@ -36,14 +36,21 @@ body {
   border: 2px solid var(--highlight-color);
   border-radius: 8px;
 
-  cursor: pointer;
-
   display: flex;
   justify-content: center;
   align-items: center;
 
-  font-size: 128px;
+  box-sizing: border-box;
+  font-size: 6em;
   text-shadow: 2px 2px 1px var(--secondary-color);
+}
+
+.board-container .square:hover {
+  border: 4px solid var(--highlight-color);
+
+  box-shadow: inset 0 0 10px var(--highlight-color);
+
+  cursor: pointer;
 }
 
 .score-container {
