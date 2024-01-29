@@ -5,7 +5,7 @@ and two methods to be able to update the board or get the contents of the board.
 */
 const board = (function createGameboard () {
   /*
-  rowIndex = Math.trunc(i);
+  rowIndex = Math.trunc(i / 3);
   colIndex = i % 3;
   */
   const board = [
@@ -44,6 +44,21 @@ function createPlayer (num) {
 const gameController = (function createGameController () {
   const boardObj = board;
   const players = [createPlayer(1), createPlayer(2)];
+  let activePlayer = players[0];
+  const getActivePlayer = () => activePlayer;
+  const setActivePlayer = function() {
+    activePlayer = activePlayer === players[0] ? players[1] : players[0];
+  };
+  const playTurn = function () {
+    const moveIndex = activePlayer.getMove(prompt('Enter index to make move:'));
+    boardObj.updateBoard(moveIndex, activePlayer.getNum());
+
+    if (gameWon()) {
+      console.log('Hooray! The game is over!');
+    } else {
+      setActivePlayer();
+    }
+  };
   const gameWon = function () {
     return checkRows() || checkCols() || checkDiagonals();
   };
@@ -61,8 +76,12 @@ const gameController = (function createGameController () {
         row.push(boardObj.board[index]);
       }
 
-      return allEquals(row);
+      if (allEquals(row)) {
+        return true;
+      };
     }
+
+    return false;
   };
   const checkCols = function () {
     for (let i = 0; i <= 2; i++) {
@@ -74,8 +93,12 @@ const gameController = (function createGameController () {
         row.push(boardObj.board[index]);
       }
 
-      return allEquals(row);
+      if (allEquals(row)) {
+        return true;
+      };
     }
+
+    return false
   };
   const checkDiagonals = function () {
     let row = [];
@@ -102,5 +125,5 @@ const gameController = (function createGameController () {
     });
   };
 
-  return { boardObj, players, gameWon };
+  return { boardObj, players, getActivePlayer, playTurn, gameWon };
 })();
