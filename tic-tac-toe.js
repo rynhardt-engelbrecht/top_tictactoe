@@ -16,7 +16,11 @@ function createGameboard () {
 
   const getBoard = () => board;
   const updateBoard = function(index, symbol) {
-    board[index] = symbol;
+    if (index < board.length && index >= 0) {
+      board[index] = symbol;
+    } else {
+      console.error('Error: Index out of range.');
+    }
 
     return board;
   };
