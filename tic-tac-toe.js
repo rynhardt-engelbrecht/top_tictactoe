@@ -61,8 +61,13 @@ const gameController = (function createGameController () {
     if (response != null) {
       renderer(boardObj);
       if (gameWon()) {
-        console.log('Hooray! The game is over!');
         removeClickListeners();
+        console.log('Hooray! The game is over!');
+
+        (function() {
+          const scoreDisplay = document.querySelector('.score-container');
+          scoreDisplay.textContent = `Player ${getActivePlayer().getNum()} won!`
+        })();
       } else {
         updateActivePlayer();
       }

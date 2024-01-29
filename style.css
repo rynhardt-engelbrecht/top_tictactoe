@@ -60,5 +60,12 @@ body {
   border-radius: 6px;
 
   width: 40vh;
-  height: 48vh;
+  height: 30vh;
+
+  font-size: 2em;
+  font-weight: bold;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
