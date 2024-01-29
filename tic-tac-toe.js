@@ -15,9 +15,9 @@ const board = (function createGameboard () {
   ];
 
   const getBoard = () => board;
-  const updateBoard = function(index, symbol) {
+  const updateBoard = function(index, num) {
     if (index < board.length && index >= 0) {
-      board[index] = symbol;
+      board[index] = num;
     } else {
       console.error('Error: Index out of range.');
     }
@@ -28,9 +28,15 @@ const board = (function createGameboard () {
   return { getBoard, updateBoard };
 })();
 
-// function createPlayer (name, symbol) {
-//   return { name, symbol }
-// }
+/*
+Function to create player objects to interface with the Gameboard object
+*/
+function createPlayer (name, num) {
+  const getNum = () => num;
+  const getMove = (index) => index;
+
+  return { name, getNum, getMove };
+}
 
 // function createGame (boardObj, players) {
 //   return { boardObj, players }
