@@ -1,6 +1,6 @@
 /*
 Factory function to create a Gameboard object, containing a board array
-used to store the contents fo the game board, and two methods to be able
+used to store the contents of the game board, and two methods to be able
 to update the board or get the contents of the board.
 */
 function createGameboard () {
