@@ -17,8 +17,10 @@ const board = (function createGameboard () {
   const updateBoard = function(index, num) {
     if (index >= board.length && index < 0) {
       console.error('Error: Index out of range.', `Input: ${index}`);
+      return null;
     } else if (board[index] != 0) {
-      console.error('Error: Index already occupied.', `Input: ${index}`)
+      console.error('Error: Index already occupied.', `Input: ${index}`);
+      return null;
     } else {
       board[index] = num;
     }
@@ -51,16 +53,32 @@ const gameController = (function createGameController () {
   const updateActivePlayer = function() {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
-  const playTurn = function () {
-    const moveIndex = activePlayer.getMove(prompt('Enter index to make move:'));
-    boardObj.updateBoard(moveIndex, activePlayer.getNum());
+  const squares = document.querySelectorAll('.board-container .square');
+  const clickHandler = e => {
+    const index = e.target.id.slice(-1);
+    const response = boardObj.updateBoard(index, getActivePlayer().getNum());
 
-    if (gameWon()) {
-      console.log('Hooray! The game is over!');
-    } else {
-      updateActivePlayer();
+    if (response != null) {
+      renderer(boardObj);
+      if (gameWon()) {
+        console.log('Hooray! The game is over!');
+        removeClickListeners();
+      } else {
+        updateActivePlayer();
+      }
     }
-  };
+  }
+
+  squares.forEach(square => {
+    square.addEventListener('click', clickHandler);
+  });
+
+  function removeClickListeners() {
+    squares.forEach(square => {
+        square.removeEventListener('click', clickHandler);
+    });
+  }
+
   const gameWon = function () {
     return checkRows() || checkCols() || checkDiagonals();
   };
@@ -127,14 +145,12 @@ const gameController = (function createGameController () {
     });
   }
 
-  return { boardObj, players, getActivePlayer, playTurn, gameWon };
+  return { boardObj, players, getActivePlayer, gameWon };
 })();
 
-const renderer = (function(board) {
+const renderer = function(board) {
   board.board.forEach((value, index, array) => {
     const square = document.getElementById(`square-${index}`);
-    console.log(index);
-    console.log(square);
     const symbol = getSymbol(value);
 
     square.textContent = symbol;
@@ -148,4 +164,6 @@ const renderer = (function(board) {
       return 'O';
     }
   };
-})(board);
+
+  return { getSymbol };
+};
