@@ -15,10 +15,12 @@ const board = (function createGameboard () {
   ];
 
   const updateBoard = function(index, num) {
-    if (index < board.length && index >= 0) {
-      board[index] = num;
+    if (index >= board.length && index < 0) {
+      console.error('Error: Index out of range.', `Input: ${index}`);
+    } else if (board[index] != 0) {
+      console.error('Error: Index already occupied.', `Input: ${index}`)
     } else {
-      console.error('Error: Index out of range.');
+      board[index] = num;
     }
 
     return board;
