@@ -87,7 +87,8 @@ body {
   width: max(120px, 80%);
 }
 
-.start-button {
+.start-button,
+.restart-button {
   position: absolute;
   right: -70px;
 
@@ -105,24 +106,7 @@ body {
   cursor: pointer;
 }
 
-.restart-button {
-  position: absolute;
-  right: -90px;
-
-  width: 80px;
-  height: 28px;
-
-  font-size: 16px;
-  font-weight: bold;
-  color: var(--highlight-color);
-  background-color: var(--secondary-color);
-
-  border: 2px solid var(--primary-color);
-  border-radius: 4px;
-
-  cursor: pointer;
-}
-
+.start-button.hidden,
 .restart-button.hidden {
   visibility: hidden;
   display: none;
