@@ -20,14 +20,18 @@
     <div id="square-8" class="square"></div>
   </div>
   <div class="score-container">
-    <div id="player-card">
-      <label for="player-1">Player 1:</label>
-      <input type="text" id="player-1" name="player-1">
-    </div>
-    <div id="player-card">
-      <label for="player-2">Player 2:</label>
-      <input type="text" id="player-2" name="player-2">
-    </div>
+    <form action="post" class="player-form">
+      <div id="player-card">
+        <label for="player-1">Player 1:</label>
+        <input type="text" id="player-1" name="player-1">
+      </div>
+      <div id="player-card">
+        <label for="player-2">Player 2:</label>
+        <input type="text" id="player-2" name="player-2">
+      </div>
+      <input type="submit" value="Start" class="start-button">
+      <button class="restart-button"></button>
+    </form>
   </div>
 </body>
 </html>
