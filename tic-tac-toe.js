@@ -4,6 +4,8 @@ containing a board array used to store the contents of the game board,
 and two methods to be able to update the board or get the contents of the board.
 */
 const squares = document.querySelectorAll('.board-container .square');
+const startButton = document.querySelector('.start-button');
+const restartButton = document.querySelector('.restart-button');
 const board = (function createGameboard () {
   /*
   rowIndex = Math.trunc(i / 3);
@@ -82,6 +84,9 @@ const gameController = (function createGameController () {
     const winningNum = getActivePlayer().getNum();
     const winningPlayer = document.querySelector(`#player-${winningNum}`);
     alert(`${winningPlayer.value} wins the game!`);
+
+    startButton.classList.add('hidden');
+    restartButton.classList.remove('hidden');
   };
   const gameWon = function () {
     return checkRows() || checkCols() || checkDiagonals();
@@ -171,9 +176,6 @@ const renderer = function(board) {
 
   return { getSymbol };
 };
-
-const startButton = document.querySelector('.start-button');
-const restartButton = document.querySelector('.restart-button');
 
 startButton.addEventListener('click', e => {
   e.preventDefault();
