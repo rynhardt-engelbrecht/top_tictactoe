@@ -26,12 +26,19 @@ const board = (function createGameboard () {
       return null;
     } else {
       board[index] = num;
+      console.log(board);
     }
 
     return board;
   };
 
-  return { board, updateBoard };
+  const resetBoard = function() {
+    for (let i = 0; i < board.length; i++) {
+      board[i] = 0;
+    }
+  };
+
+  return { board, updateBoard, resetBoard };
 })();
 
 /*
@@ -85,9 +92,25 @@ const gameController = (function createGameController () {
     const winningPlayer = document.querySelector(`#player-${winningNum}`);
     alert(`${winningPlayer.value} wins the game!`);
 
-    startButton.classList.add('hidden');
     restartButton.classList.remove('hidden');
   };
+  const startSequence = function (e) {
+    e.preventDefault();
+    boardObj.resetBoard();
+
+    squares.forEach(square => {
+      square.addEventListener('click', gameController.clickHandler);
+    });
+
+    const playerOne = document.querySelector('#player-1');
+    const playerTwo = document.querySelector('#player-2');
+
+    gameController.players[0].setName(playerOne.value);
+    gameController.players[1].setName(playerTwo.value);
+
+    startButton.classList.add('hidden');
+    restartButton.classList.add('hidden');
+  }
   const gameWon = function () {
     return checkRows() || checkCols() || checkDiagonals();
   };
@@ -154,10 +177,11 @@ const gameController = (function createGameController () {
     });
   }
 
-  return { boardObj, players, getActivePlayer, clickHandler, winSequence };
+  return { boardObj, players, getActivePlayer, clickHandler, winSequence, startSequence };
 })();
 
 const renderer = function(board) {
+  console.log(board);
   board.board.forEach((value, index, array) => {
     const square = document.getElementById(`square-${index}`);
     const symbol = getSymbol(value);
@@ -177,16 +201,5 @@ const renderer = function(board) {
   return { getSymbol };
 };
 
-startButton.addEventListener('click', e => {
-  e.preventDefault();
-
-  squares.forEach(square => {
-    square.addEventListener('click', gameController.clickHandler);
-  });
-
-  const playerOne = document.querySelector('#player-1');
-  const playerTwo = document.querySelector('#player-2');
-
-  gameController.players[0].setName(playerOne.value);
-  gameController.players[1].setName(playerTwo.value);
-});
+startButton.addEventListener('click', e => gameController.startSequence(e));
+restartButton.addEventListener('click', e => gameController.startSequence(e));
