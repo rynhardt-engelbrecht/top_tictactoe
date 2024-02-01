@@ -62,13 +62,7 @@ const gameController = (function createGameController () {
     if (response != null) {
       renderer(boardObj);
       if (gameWon()) {
-        removeClickListeners();
-        console.log('Hooray! The game is over!');
-
-        (function() {
-          const scoreDisplay = document.querySelector('.score-container');
-          scoreDisplay.textContent = `Player ${getActivePlayer().getNum()} won!`
-        })();
+        winSequence();
       } else {
         updateActivePlayer();
       }
@@ -81,6 +75,14 @@ const gameController = (function createGameController () {
     });
   }
 
+  const winSequence = function () {
+    removeClickListeners();
+    console.log('Hooray! The game is over!');
+
+    const winningNum = getActivePlayer().getNum();
+    const winningPlayer = document.querySelector(`#player-${winningNum}`);
+    alert(`${winningPlayer.value} wins the game!`);
+  };
   const gameWon = function () {
     return checkRows() || checkCols() || checkDiagonals();
   };
@@ -147,7 +149,7 @@ const gameController = (function createGameController () {
     });
   }
 
-  return { boardObj, players, getActivePlayer, clickHandler, gameWon };
+  return { boardObj, players, getActivePlayer, clickHandler, winSequence };
 })();
 
 const renderer = function(board) {
@@ -179,4 +181,10 @@ startButton.addEventListener('click', e => {
   squares.forEach(square => {
     square.addEventListener('click', gameController.clickHandler);
   });
+
+  const playerOne = document.querySelector('#player-1');
+  const playerTwo = document.querySelector('#player-2');
+
+  gameController.players[0].setName(playerOne.value);
+  gameController.players[1].setName(playerTwo.value);
 });
