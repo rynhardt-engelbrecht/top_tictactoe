@@ -96,20 +96,28 @@ const gameController = (function createGameController () {
   };
   const startSequence = function (e) {
     e.preventDefault();
-    boardObj.resetBoard();
+
+    const playerOne = document.querySelector('#player-1');
+    const playerTwo = document.querySelector('#player-2');
+
+    if (playerOne.value === '' || playerTwo.value === '') {
+      alert('Please fill in both player names.');
+      return false;
+    } else {
+      boardObj.resetBoard();
+      renderer(boardObj);
 
     squares.forEach(square => {
       square.addEventListener('click', gameController.clickHandler);
     });
-
-    const playerOne = document.querySelector('#player-1');
-    const playerTwo = document.querySelector('#player-2');
 
     gameController.players[0].setName(playerOne.value);
     gameController.players[1].setName(playerTwo.value);
 
     startButton.classList.add('hidden');
     restartButton.classList.add('hidden');
+    }
+
   }
   const gameWon = function () {
     return checkRows() || checkCols() || checkDiagonals();
