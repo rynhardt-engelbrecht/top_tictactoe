@@ -26,7 +26,6 @@ const board = (function createGameboard () {
       return null;
     } else {
       board[index] = num;
-      console.log(board);
     }
 
     return board;
@@ -72,6 +71,10 @@ const gameController = (function createGameController () {
       renderer(boardObj);
       if (winChecker.gameWon(boardObj)) {
         winSequence();
+      } else if (winChecker.gameTied(boardObj)) {
+        alert('The game resulted in a tie!');
+
+        restartButton.classList.remove('hidden');
       } else {
         updateActivePlayer();
       }

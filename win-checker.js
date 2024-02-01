@@ -2,11 +2,20 @@ const winChecker = (function () {
   const gameWon = function (boardObj) {
     return checkRows(boardObj) || checkCols(boardObj) || checkDiagonals(boardObj);
   };
+  const gameTied = function (boardObj) {
+    return fullBoard(boardObj) && !gameWon(boardObj);
+  };
+  function fullBoard(boardObj) {
+    const equalsNotZero = function (num) {
+      return num != 0;
+    };
+    return boardObj.board.every(equalsNotZero);
+  }
   /*
   Below is stupid math because I decided to use a 1-Dimensional array to represent
   a 2-Dimensional board.
   */
-  const checkRows = function (boardObj) {
+  function checkRows (boardObj) {
     for (let i = 0; i <= 6; i += 3) {
 
       const row = [];
@@ -23,7 +32,7 @@ const winChecker = (function () {
 
     return false;
   };
-  const checkCols = function (boardObj) {
+  function checkCols (boardObj) {
     for (let i = 0; i <= 2; i++) {
 
       const row = [];
@@ -40,7 +49,7 @@ const winChecker = (function () {
 
     return false
   };
-  const checkDiagonals = function (boardObj) {
+  function checkDiagonals (boardObj) {
     let row = [];
 
     for (let i = 0; i <= 8; i += 4) {
@@ -65,5 +74,5 @@ const winChecker = (function () {
     });
   }
 
-  return { gameWon };
+  return { gameWon, gameTied };
 })();
