@@ -3,6 +3,7 @@ Factory function wrapped inside an IIFE to create a Gameboard object,
 containing a board array used to store the contents of the game board,
 and two methods to be able to update the board or get the contents of the board.
 */
+const squares = document.querySelectorAll('.board-container .square');
 const board = (function createGameboard () {
   /*
   rowIndex = Math.trunc(i / 3);
@@ -53,7 +54,7 @@ const gameController = (function createGameController () {
   const updateActivePlayer = function() {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
-  const squares = document.querySelectorAll('.board-container .square');
+
   const clickHandler = e => {
     const index = e.target.id.slice(-1);
     const response = boardObj.updateBoard(index, getActivePlayer().getNum());
@@ -73,10 +74,6 @@ const gameController = (function createGameController () {
       }
     }
   }
-
-  squares.forEach(square => {
-    square.addEventListener('click', clickHandler);
-  });
 
   function removeClickListeners() {
     squares.forEach(square => {
@@ -150,7 +147,7 @@ const gameController = (function createGameController () {
     });
   }
 
-  return { boardObj, players, getActivePlayer, gameWon };
+  return { boardObj, players, getActivePlayer, clickHandler, gameWon };
 })();
 
 const renderer = function(board) {
@@ -172,3 +169,14 @@ const renderer = function(board) {
 
   return { getSymbol };
 };
+
+const startButton = document.querySelector('.start-button');
+const restartButton = document.querySelector('.restart-button');
+
+startButton.addEventListener('click', e => {
+  e.preventDefault();
+
+  squares.forEach(square => {
+    square.addEventListener('click', gameController.clickHandler);
+  });
+});
